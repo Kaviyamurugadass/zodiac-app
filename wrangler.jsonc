@@ -1,0 +1,9 @@
+{
+  "name": "zodiac",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown paths like /tarot serve index.html so React Router can handle them
+    "not_found_handling": "single-page-application"
+  }
+}

@@ -38,9 +38,10 @@ npm run preview   # serve the production build
 
 ## Deploy (free)
 
+- **Cloudflare Workers**: build command `npm run build`, deploy command `npx wrangler deploy`
+  (`wrangler.jsonc` serves `dist/` with single-page-app routing).
 - **Vercel**: import the GitHub repo → framework "Vite" → deploy (`vercel.json` handles routing).
-- **Netlify**: build command `npm run build`, publish dir `dist` (`public/_redirects` handles routing).
-- **Cloudflare Pages**: build command `npm run build`, output `dist`.
+- **Netlify**: import the repo; `netlify.toml` sets the build and routing.
 
 ## Project structure
 
