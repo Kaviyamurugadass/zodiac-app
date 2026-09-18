@@ -16,9 +16,25 @@ import { touchStreak } from './lib/storage'
 
 touchStreak()
 
+function ErrorScreen() {
+  return (
+    <div className="mx-auto grid min-h-dvh max-w-md place-items-center px-6 text-center">
+      <div>
+        <p className="text-6xl">🌘</p>
+        <h1 className="mt-4 font-display text-2xl font-bold text-gold">The stars got tangled</h1>
+        <p className="mt-2 text-violet-200/80">Something went wrong. Let’s try that again.</p>
+        <a href="/" className="btn-primary mt-6">
+          Back to home
+        </a>
+      </div>
+    </div>
+  )
+}
+
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <ErrorScreen />,
     children: [
       { path: '/', element: <Home /> },
       { path: '/horoscope', element: <HoroscopePage /> },

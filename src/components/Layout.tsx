@@ -43,7 +43,11 @@ const TABS = [
 
 export default function Layout() {
   const { pathname } = useLocation()
-  useEffect(() => window.scrollTo(0, 0), [pathname])
+  // Braces matter: newer browsers return a Promise from scrollTo, and React
+  // would treat any returned value as a cleanup function.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   return (
     <div className="mx-auto min-h-dvh max-w-md px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-28">
