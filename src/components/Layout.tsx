@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Art } from './Art'
 
 function StarField() {
   const stars = useMemo(
@@ -34,11 +35,11 @@ function StarField() {
 }
 
 const TABS = [
-  { to: '/', label: 'Home', icon: '🏠' },
-  { to: '/horoscope', label: 'Horoscope', icon: '✨' },
-  { to: '/tarot', label: 'Tarot', icon: '🃏' },
-  { to: '/compatibility', label: 'Match', icon: '💞' },
-  { to: '/profile', label: 'Me', icon: '👤' },
+  { to: '/', label: 'Home', icon: 'home' },
+  { to: '/horoscope', label: 'Horoscope', icon: 'star' },
+  { to: '/tarot', label: 'Tarot', icon: 'tarot' },
+  { to: '/compatibility', label: 'Match', icon: 'hearts' },
+  { to: '/profile', label: 'Me', icon: 'user' },
 ]
 
 export default function Layout() {
@@ -66,13 +67,16 @@ export default function Layout() {
               to={t.to}
               end={t.to === '/'}
               className={({ isActive }) =>
-                `flex min-w-14 flex-col items-center rounded-2xl px-2 py-1.5 text-[11px] font-bold transition ${
-                  isActive ? 'bg-white/12 text-gold-300' : 'text-violet-200/70'
+                `group flex min-w-14 flex-col items-center rounded-2xl px-2 py-1 text-[11px] font-bold transition ${
+                  isActive ? 'active bg-white/12 text-gold-300' : 'text-violet-200/70'
                 }`
               }
             >
-              <span className="text-xl leading-none">{t.icon}</span>
-              <span className="mt-1">{t.label}</span>
+              <Art
+                name={t.icon}
+                className="size-8 opacity-60 grayscale-[35%] transition group-[.active]:scale-110 group-[.active]:opacity-100 group-[.active]:grayscale-0"
+              />
+              <span className="mt-0.5">{t.label}</span>
             </NavLink>
           ))}
         </div>

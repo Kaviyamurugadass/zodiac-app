@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useStore } from '../lib/storage'
 import { PageHeader, Section } from '../components/ui'
+import { Art } from '../components/Art'
 
 type Side = 'heads' | 'tails'
 
@@ -26,7 +27,7 @@ function Face({ side }: { side: Side }) {
       }}
     >
       <div className="flex flex-col items-center">
-        <span className="text-6xl">{heads ? '☀️' : '🌙'}</span>
+        <Art name={heads ? 'sun' : 'moon'} className="size-24" />
         <span className="mt-1 font-display text-lg font-bold text-night-900/80">{heads ? 'HEADS' : 'TAILS'}</span>
       </div>
     </div>
@@ -80,7 +81,7 @@ export default function Coin() {
       <div className="h-12 text-center">
         {result && (
           <p className="font-display text-3xl font-bold animate-pop">
-            {result === 'heads' ? '☀️' : '🌙'} <span className="text-gold">{result === 'heads' ? 'Heads!' : 'Tails!'}</span>
+            <Art name={result === 'heads' ? 'sun' : 'moon'} className="inline size-10 align-middle" /> <span className="text-gold">{result === 'heads' ? 'Heads!' : 'Tails!'}</span>
           </p>
         )}
         {flipping && <p className="font-bold text-violet-200 animate-pulse">Flipping…</p>}
@@ -88,7 +89,7 @@ export default function Coin() {
 
       <div className="flex justify-center">
         <button className="btn-primary px-10" onClick={flip} disabled={flipping}>
-          🪙 Flip coin
+          Flip coin
         </button>
       </div>
 
@@ -111,7 +112,7 @@ export default function Coin() {
           <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Recent flips">
             {stats.history.map((s, i) => (
               <span key={i} className="grid size-8 place-items-center rounded-full bg-white/8 text-base">
-                {s === 'heads' ? '☀️' : '🌙'}
+                <Art name={s === 'heads' ? 'sun' : 'moon'} className="size-7" />
               </span>
             ))}
           </div>

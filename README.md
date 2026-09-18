@@ -23,8 +23,11 @@ Every result can be shared as an image (native share sheet on mobile, download o
 - **Horoscopes** are generated on-device from hand-written phrase pools (`src/data/horoscopeText.ts`)
   using a seeded random generator keyed on *sign + date* — so every visitor sees the same reading for
   a sign on a given day, and it changes at midnight. No API keys, no rate limits, no downtime.
-- **Tarot** meanings are original text (`src/data/tarot.ts`); the cards are drawn with CSS + emoji,
-  so there are no image licensing issues.
+- **Tarot** meanings are original text (`src/data/tarot.ts`). Major Arcana cards show their traditional
+  zodiac/planet correspondence (Strength → Leo, The Sun → Sun…); minor cards show their suit.
+- **Art**: all 44 cartoon illustrations (12 zodiac mascots, 10 planets, tarot suits, UI icons) are
+  generated as SVG by `scripts/generate-art.mjs` into `src/assets/art/`. Edit the script and run
+  `npm run art` to tweak them. No image licences involved.
 - Profile, streaks and stats live in `localStorage` on the user's device.
 
 ## Run it

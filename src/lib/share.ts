@@ -4,9 +4,19 @@
 export interface ShareCard {
   title: string
   subtitle?: string
-  emoji: string
+  /** illustration URLs (from artUrl) drawn side by side at the top */
+  images: string[]
   body: string
   footer?: string
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.onerror = reject
+    img.src = src
+  })
 }
 
 const W = 1080
@@ -61,8 +71,11 @@ async function render(card: ShareCard): Promise<Blob> {
   ctx.stroke()
 
   ctx.textAlign = 'center'
-  ctx.font = '170px serif'
-  ctx.fillText(card.emoji, W / 2, 360)
+  const imgs = await Promise.all(card.images.map(loadImage))
+  const imgSize = imgs.length > 1 ? 210 : 260
+  const gap = 20
+  const total = imgs.length * imgSize + (imgs.length - 1) * gap
+  imgs.forEach((img, i) => ctx.drawImage(img, (W - total) / 2 + i * (imgSize + gap), 390 - imgSize, imgSize, imgSize))
 
   const gold = ctx.createLinearGradient(0, 0, W, 0)
   gold.addColorStop(0, '#fff1c7')

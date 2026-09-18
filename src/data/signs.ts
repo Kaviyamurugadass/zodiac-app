@@ -5,7 +5,6 @@ export interface ZodiacSign {
   id: string
   name: string
   symbol: string
-  emoji: string
   dates: string
   /** [month, day] inclusive start, 1-based month */
   start: [number, number]
@@ -28,7 +27,7 @@ export interface ZodiacSign {
 
 export const SIGNS: ZodiacSign[] = [
   {
-    id: 'aries', name: 'Aries', symbol: '♈', emoji: '🐏', dates: 'Mar 21 – Apr 19', start: [3, 21],
+    id: 'aries', name: 'Aries', symbol: '♈', dates: 'Mar 21 – Apr 19', start: [3, 21],
     element: 'Fire', modality: 'Cardinal', ruler: 'Mars', color: '#ff6b6b', gradient: 'from-rose-500 to-orange-400',
     strengths: ['Courageous', 'Determined', 'Confident', 'Enthusiastic', 'Honest'],
     weaknesses: ['Impatient', 'Short-tempered', 'Impulsive', 'Competitive to a fault'],
@@ -40,7 +39,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Tuesday', luckyColors: ['Red', 'Scarlet'], gemstone: 'Diamond',
   },
   {
-    id: 'taurus', name: 'Taurus', symbol: '♉', emoji: '🐂', dates: 'Apr 20 – May 20', start: [4, 20],
+    id: 'taurus', name: 'Taurus', symbol: '♉', dates: 'Apr 20 – May 20', start: [4, 20],
     element: 'Earth', modality: 'Fixed', ruler: 'Venus', color: '#7bc96f', gradient: 'from-emerald-500 to-lime-400',
     strengths: ['Reliable', 'Patient', 'Practical', 'Devoted', 'Sensual'],
     weaknesses: ['Stubborn', 'Possessive', 'Resistant to change'],
@@ -52,7 +51,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Friday', luckyColors: ['Green', 'Pink'], gemstone: 'Emerald',
   },
   {
-    id: 'gemini', name: 'Gemini', symbol: '♊', emoji: '👯', dates: 'May 21 – Jun 20', start: [5, 21],
+    id: 'gemini', name: 'Gemini', symbol: '♊', dates: 'May 21 – Jun 20', start: [5, 21],
     element: 'Air', modality: 'Mutable', ruler: 'Mercury', color: '#ffd166', gradient: 'from-amber-400 to-yellow-300',
     strengths: ['Curious', 'Witty', 'Adaptable', 'Sociable', 'Quick learner'],
     weaknesses: ['Restless', 'Indecisive', 'Easily bored', 'Inconsistent'],
@@ -64,7 +63,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Wednesday', luckyColors: ['Yellow', 'Light green'], gemstone: 'Agate',
   },
   {
-    id: 'cancer', name: 'Cancer', symbol: '♋', emoji: '🦀', dates: 'Jun 21 – Jul 22', start: [6, 21],
+    id: 'cancer', name: 'Cancer', symbol: '♋', dates: 'Jun 21 – Jul 22', start: [6, 21],
     element: 'Water', modality: 'Cardinal', ruler: 'Moon', color: '#9ad1ff', gradient: 'from-sky-400 to-indigo-400',
     strengths: ['Caring', 'Intuitive', 'Loyal', 'Protective', 'Imaginative'],
     weaknesses: ['Moody', 'Overly sensitive', 'Clingy', 'Holds grudges'],
@@ -76,7 +75,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Monday', luckyColors: ['Silver', 'White'], gemstone: 'Pearl',
   },
   {
-    id: 'leo', name: 'Leo', symbol: '♌', emoji: '🦁', dates: 'Jul 23 – Aug 22', start: [7, 23],
+    id: 'leo', name: 'Leo', symbol: '♌', dates: 'Jul 23 – Aug 22', start: [7, 23],
     element: 'Fire', modality: 'Fixed', ruler: 'Sun', color: '#ffa94d', gradient: 'from-orange-400 to-yellow-400',
     strengths: ['Generous', 'Warm-hearted', 'Creative', 'Charismatic', 'Loyal'],
     weaknesses: ['Proud', 'Dramatic', 'Needs attention', 'Stubborn'],
@@ -88,7 +87,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Sunday', luckyColors: ['Gold', 'Orange'], gemstone: 'Ruby',
   },
   {
-    id: 'virgo', name: 'Virgo', symbol: '♍', emoji: '🌾', dates: 'Aug 23 – Sep 22', start: [8, 23],
+    id: 'virgo', name: 'Virgo', symbol: '♍', dates: 'Aug 23 – Sep 22', start: [8, 23],
     element: 'Earth', modality: 'Mutable', ruler: 'Mercury', color: '#b5e48c', gradient: 'from-lime-400 to-teal-400',
     strengths: ['Analytical', 'Kind', 'Hardworking', 'Practical', 'Detail-oriented'],
     weaknesses: ['Overcritical', 'Worrier', 'Perfectionist', 'Shy'],
@@ -100,7 +99,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Wednesday', luckyColors: ['Grey', 'Beige'], gemstone: 'Sapphire',
   },
   {
-    id: 'libra', name: 'Libra', symbol: '♎', emoji: '⚖️', dates: 'Sep 23 – Oct 22', start: [9, 23],
+    id: 'libra', name: 'Libra', symbol: '♎', dates: 'Sep 23 – Oct 22', start: [9, 23],
     element: 'Air', modality: 'Cardinal', ruler: 'Venus', color: '#f7a1c4', gradient: 'from-pink-400 to-fuchsia-400',
     strengths: ['Diplomatic', 'Fair-minded', 'Social', 'Gracious', 'Romantic'],
     weaknesses: ['Indecisive', 'Avoids conflict', 'People-pleaser'],
@@ -112,7 +111,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Friday', luckyColors: ['Pink', 'Light blue'], gemstone: 'Opal',
   },
   {
-    id: 'scorpio', name: 'Scorpio', symbol: '♏', emoji: '🦂', dates: 'Oct 23 – Nov 21', start: [10, 23],
+    id: 'scorpio', name: 'Scorpio', symbol: '♏', dates: 'Oct 23 – Nov 21', start: [10, 23],
     element: 'Water', modality: 'Fixed', ruler: 'Pluto & Mars', color: '#c77dff', gradient: 'from-purple-600 to-rose-500',
     strengths: ['Passionate', 'Resourceful', 'Brave', 'Loyal', 'Perceptive'],
     weaknesses: ['Jealous', 'Secretive', 'Intense', 'Distrusting'],
@@ -124,7 +123,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Tuesday', luckyColors: ['Maroon', 'Black'], gemstone: 'Topaz',
   },
   {
-    id: 'sagittarius', name: 'Sagittarius', symbol: '♐', emoji: '🏹', dates: 'Nov 22 – Dec 21', start: [11, 22],
+    id: 'sagittarius', name: 'Sagittarius', symbol: '♐', dates: 'Nov 22 – Dec 21', start: [11, 22],
     element: 'Fire', modality: 'Mutable', ruler: 'Jupiter', color: '#ff9f68', gradient: 'from-orange-500 to-violet-500',
     strengths: ['Optimistic', 'Adventurous', 'Funny', 'Generous', 'Philosophical'],
     weaknesses: ['Impatient', 'Tactless', 'Overpromises', 'Restless'],
@@ -136,7 +135,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Thursday', luckyColors: ['Purple', 'Blue'], gemstone: 'Turquoise',
   },
   {
-    id: 'capricorn', name: 'Capricorn', symbol: '♑', emoji: '🐐', dates: 'Dec 22 – Jan 19', start: [12, 22],
+    id: 'capricorn', name: 'Capricorn', symbol: '♑', dates: 'Dec 22 – Jan 19', start: [12, 22],
     element: 'Earth', modality: 'Cardinal', ruler: 'Saturn', color: '#a3b18a', gradient: 'from-stone-500 to-emerald-600',
     strengths: ['Disciplined', 'Responsible', 'Ambitious', 'Patient', 'Wise'],
     weaknesses: ['Pessimistic', 'Workaholic', 'Unforgiving', 'Rigid'],
@@ -148,7 +147,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Saturday', luckyColors: ['Brown', 'Dark green'], gemstone: 'Garnet',
   },
   {
-    id: 'aquarius', name: 'Aquarius', symbol: '♒', emoji: '🏺', dates: 'Jan 20 – Feb 18', start: [1, 20],
+    id: 'aquarius', name: 'Aquarius', symbol: '♒', dates: 'Jan 20 – Feb 18', start: [1, 20],
     element: 'Air', modality: 'Fixed', ruler: 'Uranus & Saturn', color: '#64dfdf', gradient: 'from-cyan-400 to-blue-500',
     strengths: ['Original', 'Independent', 'Humanitarian', 'Inventive', 'Friendly'],
     weaknesses: ['Aloof', 'Unpredictable', 'Stubborn about ideas'],
@@ -160,7 +159,7 @@ export const SIGNS: ZodiacSign[] = [
     luckyDay: 'Saturday', luckyColors: ['Electric blue', 'Silver'], gemstone: 'Amethyst',
   },
   {
-    id: 'pisces', name: 'Pisces', symbol: '♓', emoji: '🐟', dates: 'Feb 19 – Mar 20', start: [2, 19],
+    id: 'pisces', name: 'Pisces', symbol: '♓', dates: 'Feb 19 – Mar 20', start: [2, 19],
     element: 'Water', modality: 'Mutable', ruler: 'Neptune & Jupiter', color: '#8ecae6', gradient: 'from-teal-400 to-indigo-500',
     strengths: ['Compassionate', 'Artistic', 'Intuitive', 'Gentle', 'Wise'],
     weaknesses: ['Escapist', 'Overly trusting', 'Sad at times', 'Indecisive'],
@@ -185,11 +184,11 @@ export function signFromDate(month: number, day: number): ZodiacSign {
   return found
 }
 
-export const ELEMENT_INFO: Record<Element, { emoji: string; text: string }> = {
-  Fire: { emoji: '🔥', text: 'Energetic, passionate and action-driven.' },
-  Earth: { emoji: '🌿', text: 'Grounded, practical and dependable.' },
-  Air: { emoji: '💨', text: 'Intellectual, social and communicative.' },
-  Water: { emoji: '🌊', text: 'Emotional, intuitive and deeply feeling.' },
+export const ELEMENT_INFO: Record<Element, { art: string; text: string }> = {
+  Fire: { art: 'fire', text: 'Energetic, passionate and action-driven.' },
+  Earth: { art: 'earth', text: 'Grounded, practical and dependable.' },
+  Air: { art: 'air', text: 'Intellectual, social and communicative.' },
+  Water: { art: 'water', text: 'Emotional, intuitive and deeply feeling.' },
 }
 
 export const MODALITY_INFO: Record<Modality, string> = {

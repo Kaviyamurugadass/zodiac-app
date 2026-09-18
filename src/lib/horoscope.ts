@@ -11,7 +11,7 @@ export type Category = 'love' | 'career' | 'money' | 'health'
 export interface CategoryReading {
   key: Category
   label: string
-  emoji: string
+  art: string
   rating: number
   text: string
   tip: string
@@ -22,7 +22,7 @@ export interface Horoscope {
   sign: ZodiacSign
   overall: { rating: number; text: string; tip: string }
   categories: CategoryReading[]
-  mood: { emoji: string; label: string }
+  mood: { label: string }
   energy: number
   theme: string
   lucky: {
@@ -34,11 +34,11 @@ export interface Horoscope {
   }
 }
 
-const CATEGORY_META: Record<Category, { label: string; emoji: string; pool: typeof LOVE }> = {
-  love: { label: 'Love', emoji: '💖', pool: LOVE },
-  career: { label: 'Work & Career', emoji: '💼', pool: CAREER },
-  money: { label: 'Money', emoji: '💰', pool: MONEY },
-  health: { label: 'Health', emoji: '🌿', pool: HEALTH },
+const CATEGORY_META: Record<Category, { label: string; art: string; pool: typeof LOVE }> = {
+  love: { label: 'Love', art: 'love', pool: LOVE },
+  career: { label: 'Work & Career', art: 'work', pool: CAREER },
+  money: { label: 'Money', art: 'money', pool: MONEY },
+  health: { label: 'Health', art: 'health', pool: HEALTH },
 }
 
 // Weighted so most days feel positive-to-average, with the occasional tough one.
@@ -84,7 +84,7 @@ export function generateHoroscope(signId: string, date: Date = new Date()): Horo
     return {
       key: k,
       label: meta.label,
-      emoji: meta.emoji,
+      art: meta.art,
       rating,
       text: fill(pick(meta.pool[toneOf(rating)], rng), vars),
       tip: fill(pick(meta.pool.tips, rng), vars),

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { EIGHT_BALL } from '../data/fortunes'
 import { pick } from '../lib/random'
 import { PageHeader, ShareButton } from '../components/ui'
+import { artUrl } from '../components/Art'
 
 type Kind = keyof typeof EIGHT_BALL
 
@@ -73,12 +74,12 @@ export default function YesNo() {
 
       <div className="flex flex-wrap justify-center gap-3">
         <button className="btn-primary" onClick={ask} disabled={shaking}>
-          🔮 {answer ? 'Ask again' : 'Shake the orb'}
+          {answer ? 'Ask again' : 'Shake the orb'}
         </button>
         {answer && (
           <ShareButton
             card={() => ({
-              emoji: '🔮',
+              images: [artUrl('crystal')],
               title: 'The Orb Says',
               subtitle: question ? `“${question}”` : 'Yes or No?',
               body: answer.text,
@@ -86,7 +87,7 @@ export default function YesNo() {
           />
         )}
       </div>
-      <p className="text-center text-xs text-violet-200/60">Tip: concentrate on your question before tapping ✨</p>
+      <p className="text-center text-xs text-violet-200/60">Tip: concentrate on your question before tapping</p>
     </div>
   )
 }

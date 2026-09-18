@@ -187,18 +187,18 @@ export const HEALTH: Pool = {
 }
 
 export const MOODS = [
-  { emoji: '😄', label: 'Joyful' },
-  { emoji: '😌', label: 'Peaceful' },
-  { emoji: '🤩', label: 'Inspired' },
-  { emoji: '🥰', label: 'Affectionate' },
-  { emoji: '💪', label: 'Motivated' },
-  { emoji: '🤔', label: 'Thoughtful' },
-  { emoji: '😎', label: 'Confident' },
-  { emoji: '🌙', label: 'Dreamy' },
-  { emoji: '🎉', label: 'Playful' },
-  { emoji: '🧘', label: 'Calm' },
-  { emoji: '🔥', label: 'Fired up' },
-  { emoji: '🌧️', label: 'Sensitive' },
+  { label: 'Joyful' },
+  { label: 'Peaceful' },
+  { label: 'Inspired' },
+  { label: 'Affectionate' },
+  { label: 'Motivated' },
+  { label: 'Thoughtful' },
+  { label: 'Confident' },
+  { label: 'Dreamy' },
+  { label: 'Playful' },
+  { label: 'Calm' },
+  { label: 'Fired up' },
+  { label: 'Sensitive' },
 ]
 
 export const LUCKY_COLORS = [

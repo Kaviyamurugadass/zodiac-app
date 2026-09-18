@@ -1,5 +1,6 @@
 // Complete 78-card tarot deck with original short meanings (free to use).
-// Cards are drawn with CSS/emoji art, so no image licences are needed.
+// Cards use the app's own cartoon art: majors show their traditional zodiac/planet
+// correspondence, minors show their suit. No image licences needed.
 
 export type Suit = 'major' | 'wands' | 'cups' | 'swords' | 'pentacles'
 export type YesNo = 'yes' | 'no' | 'maybe'
@@ -9,38 +10,39 @@ export interface TarotCard {
   name: string
   suit: Suit
   numeral: string
-  emoji: string
+  /** illustration name in src/assets/art */
+  art: string
   keywords: string[]
   upright: string
   reversed: string
   yesNo: YesNo
 }
 
-type Row = [name: string, emoji: string, keywords: string, upright: string, reversed: string, yesNo: YesNo]
+type Row = [name: string, art: string, keywords: string, upright: string, reversed: string, yesNo: YesNo]
 
 const MAJOR: Row[] = [
-  ['The Fool', '🤹', 'beginnings, freedom, leap of faith', 'A fresh start calls. Take the leap with an open heart — the journey itself is the gift.', 'Hesitation or recklessness. Look before you leap, but do not let fear keep you still.', 'yes'],
-  ['The Magician', '🪄', 'willpower, skill, manifestation', 'You have every tool you need. Focus your intention and make it happen.', 'Scattered energy or untapped potential. Align your actions with your goals.', 'yes'],
-  ['The High Priestess', '🌙', 'intuition, mystery, inner voice', 'Trust your inner knowing. The answer is quiet but clear if you listen.', 'You are ignoring your intuition. Step back from the noise and tune in.', 'maybe'],
-  ['The Empress', '🌸', 'abundance, nurture, creativity', 'Growth, comfort and creativity bloom. Nurture yourself and your ideas.', 'Creative block or self-neglect. Refill your own cup first.', 'yes'],
-  ['The Emperor', '👑', 'structure, authority, stability', 'Take charge with clear plans and firm boundaries. Stability comes from order.', 'Too much control or too little. Find a healthy balance of power.', 'yes'],
-  ['The Hierophant', '📜', 'tradition, guidance, learning', 'Wisdom from a mentor or tradition helps. Learn from those who walked the path.', 'Break from convention. Your own path may not follow the rulebook.', 'maybe'],
-  ['The Lovers', '💞', 'love, harmony, choices', 'Deep connection and alignment of values. A heartfelt choice leads the way.', 'Disharmony or a tough choice. Realign with what truly matters to you.', 'yes'],
-  ['The Chariot', '🏇', 'determination, victory, drive', 'Charge forward with focus. Willpower wins the race.', 'Lack of direction. Pause, regain control, then move.', 'yes'],
-  ['Strength', '🦁', 'courage, patience, compassion', 'Gentle strength conquers all. Lead with kindness and calm confidence.', 'Self-doubt creeps in. Remember how much you have already overcome.', 'yes'],
-  ['The Hermit', '🏮', 'solitude, reflection, wisdom', 'Step back and look within. Quiet time brings the clarity you seek.', 'Isolation or avoiding reflection. Reach out — you are not alone.', 'maybe'],
-  ['Wheel of Fortune', '🎡', 'luck, cycles, destiny', 'The wheel turns in your favour. Embrace change — luck is on the move.', 'A downswing, but temporary. What goes down must come up.', 'yes'],
-  ['Justice', '⚖️', 'fairness, truth, cause & effect', 'Fair outcomes and honest decisions. The truth will balance the scales.', 'Unfairness or dodging accountability. Own your part and move forward.', 'maybe'],
-  ['The Hanged Man', '🙃', 'pause, surrender, new perspective', 'Pause and see things from a new angle. Surrender brings insight.', 'Stalling or resisting change. Let go of what is stuck.', 'maybe'],
-  ['Death', '🦋', 'endings, transformation, change', 'One chapter closes so a better one can open. Transformation is here.', 'Resisting a necessary ending. Release it and feel lighter.', 'no'],
-  ['Temperance', '🍶', 'balance, moderation, patience', 'Blend, balance and be patient. The middle path is the magic one.', 'Excess or imbalance. Recalibrate your habits.', 'yes'],
-  ['The Devil', '⛓️', 'temptation, attachment, shadow', 'Notice what is holding you back — habits, fears or people. Awareness frees you.', 'Breaking free! You are releasing an old chain.', 'no'],
-  ['The Tower', '⚡', 'sudden change, revelation, upheaval', 'A surprise shake-up clears false foundations. Rebuild stronger.', 'Avoiding a needed change. The sooner you face it, the gentler it is.', 'no'],
-  ['The Star', '⭐', 'hope, healing, inspiration', 'Hope returns. Healing and inspiration pour in — keep believing.', 'Feeling discouraged. Reconnect with what gives you faith.', 'yes'],
-  ['The Moon', '🌕', 'illusion, dreams, uncertainty', 'Things are not as they seem. Trust intuition while the fog clears.', 'Confusion lifting. Truth comes to light.', 'no'],
-  ['The Sun', '☀️', 'joy, success, positivity', 'Pure sunshine! Joy, success and warmth light up everything.', 'Joy is dimmed but not gone. Find the small bright spots.', 'yes'],
-  ['Judgement', '📯', 'awakening, renewal, calling', 'A wake-up call. Rise to your higher purpose and forgive the past.', 'Self-doubt or harsh self-judgement. Be kinder to yourself.', 'yes'],
-  ['The World', '🌍', 'completion, achievement, wholeness', 'A cycle completes beautifully. Celebrate how far you have come.', 'Almost there — tie up loose ends to finish strong.', 'yes'],
+  ['The Fool', 'uranus', 'beginnings, freedom, leap of faith', 'A fresh start calls. Take the leap with an open heart — the journey itself is the gift.', 'Hesitation or recklessness. Look before you leap, but do not let fear keep you still.', 'yes'],
+  ['The Magician', 'mercury', 'willpower, skill, manifestation', 'You have every tool you need. Focus your intention and make it happen.', 'Scattered energy or untapped potential. Align your actions with your goals.', 'yes'],
+  ['The High Priestess', 'moon', 'intuition, mystery, inner voice', 'Trust your inner knowing. The answer is quiet but clear if you listen.', 'You are ignoring your intuition. Step back from the noise and tune in.', 'maybe'],
+  ['The Empress', 'venus', 'abundance, nurture, creativity', 'Growth, comfort and creativity bloom. Nurture yourself and your ideas.', 'Creative block or self-neglect. Refill your own cup first.', 'yes'],
+  ['The Emperor', 'aries', 'structure, authority, stability', 'Take charge with clear plans and firm boundaries. Stability comes from order.', 'Too much control or too little. Find a healthy balance of power.', 'yes'],
+  ['The Hierophant', 'taurus', 'tradition, guidance, learning', 'Wisdom from a mentor or tradition helps. Learn from those who walked the path.', 'Break from convention. Your own path may not follow the rulebook.', 'maybe'],
+  ['The Lovers', 'gemini', 'love, harmony, choices', 'Deep connection and alignment of values. A heartfelt choice leads the way.', 'Disharmony or a tough choice. Realign with what truly matters to you.', 'yes'],
+  ['The Chariot', 'cancer', 'determination, victory, drive', 'Charge forward with focus. Willpower wins the race.', 'Lack of direction. Pause, regain control, then move.', 'yes'],
+  ['Strength', 'leo', 'courage, patience, compassion', 'Gentle strength conquers all. Lead with kindness and calm confidence.', 'Self-doubt creeps in. Remember how much you have already overcome.', 'yes'],
+  ['The Hermit', 'virgo', 'solitude, reflection, wisdom', 'Step back and look within. Quiet time brings the clarity you seek.', 'Isolation or avoiding reflection. Reach out — you are not alone.', 'maybe'],
+  ['Wheel of Fortune', 'jupiter', 'luck, cycles, destiny', 'The wheel turns in your favour. Embrace change — luck is on the move.', 'A downswing, but temporary. What goes down must come up.', 'yes'],
+  ['Justice', 'libra', 'fairness, truth, cause & effect', 'Fair outcomes and honest decisions. The truth will balance the scales.', 'Unfairness or dodging accountability. Own your part and move forward.', 'maybe'],
+  ['The Hanged Man', 'neptune', 'pause, surrender, new perspective', 'Pause and see things from a new angle. Surrender brings insight.', 'Stalling or resisting change. Let go of what is stuck.', 'maybe'],
+  ['Death', 'scorpio', 'endings, transformation, change', 'One chapter closes so a better one can open. Transformation is here.', 'Resisting a necessary ending. Release it and feel lighter.', 'no'],
+  ['Temperance', 'sagittarius', 'balance, moderation, patience', 'Blend, balance and be patient. The middle path is the magic one.', 'Excess or imbalance. Recalibrate your habits.', 'yes'],
+  ['The Devil', 'capricorn', 'temptation, attachment, shadow', 'Notice what is holding you back — habits, fears or people. Awareness frees you.', 'Breaking free! You are releasing an old chain.', 'no'],
+  ['The Tower', 'mars', 'sudden change, revelation, upheaval', 'A surprise shake-up clears false foundations. Rebuild stronger.', 'Avoiding a needed change. The sooner you face it, the gentler it is.', 'no'],
+  ['The Star', 'aquarius', 'hope, healing, inspiration', 'Hope returns. Healing and inspiration pour in — keep believing.', 'Feeling discouraged. Reconnect with what gives you faith.', 'yes'],
+  ['The Moon', 'pisces', 'illusion, dreams, uncertainty', 'Things are not as they seem. Trust intuition while the fog clears.', 'Confusion lifting. Truth comes to light.', 'no'],
+  ['The Sun', 'sun', 'joy, success, positivity', 'Pure sunshine! Joy, success and warmth light up everything.', 'Joy is dimmed but not gone. Find the small bright spots.', 'yes'],
+  ['Judgement', 'pluto', 'awakening, renewal, calling', 'A wake-up call. Rise to your higher purpose and forgive the past.', 'Self-doubt or harsh self-judgement. Be kinder to yourself.', 'yes'],
+  ['The World', 'saturn', 'completion, achievement, wholeness', 'A cycle completes beautifully. Celebrate how far you have come.', 'Almost there — tie up loose ends to finish strong.', 'yes'],
 ]
 
 const ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI']
@@ -50,9 +52,9 @@ const RANK_NUMERAL = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'P', 'K
 // Minor arcana rows: [keywords, upright, reversed, yesNo] for Ace..King
 type MinorRow = [keywords: string, upright: string, reversed: string, yesNo: YesNo]
 
-const MINOR: Record<Exclude<Suit, 'major'>, { emoji: string; label: string; rows: MinorRow[] }> = {
+const MINOR: Record<Exclude<Suit, 'major'>, { label: string; rows: MinorRow[] }> = {
   wands: {
-    emoji: '🔥', label: 'Wands',
+    label: 'Wands',
     rows: [
       ['inspiration, spark, new passion', 'A spark of inspiration! Start that exciting project.', 'Delays or lost motivation. Reignite your why.', 'yes'],
       ['planning, decisions, future', 'Plan your next big move. The world is bigger than you think.', 'Fear of the unknown. Step outside your comfort zone.', 'maybe'],
@@ -71,7 +73,7 @@ const MINOR: Record<Exclude<Suit, 'major'>, { emoji: string; label: string; rows
     ],
   },
   cups: {
-    emoji: '🏆', label: 'Cups',
+    label: 'Cups',
     rows: [
       ['new love, emotion, compassion', 'Love overflows! A new emotional beginning.', 'Emotional block. Open your heart gently.', 'yes'],
       ['partnership, attraction, unity', 'A beautiful connection. Mutual attraction and respect.', 'Imbalance in a relationship. Talk it through.', 'yes'],
@@ -90,7 +92,7 @@ const MINOR: Record<Exclude<Suit, 'major'>, { emoji: string; label: string; rows
     ],
   },
   swords: {
-    emoji: '⚔️', label: 'Swords',
+    label: 'Swords',
     rows: [
       ['clarity, breakthrough, truth', 'A breakthrough idea cuts through confusion.', 'Mental fog. Get the facts before deciding.', 'yes'],
       ['stalemate, difficult choice', 'A tough decision is avoided. Remove the blindfold.', 'Information overload. Pick one path.', 'maybe'],
@@ -109,7 +111,7 @@ const MINOR: Record<Exclude<Suit, 'major'>, { emoji: string; label: string; rows
     ],
   },
   pentacles: {
-    emoji: '🪙', label: 'Pentacles',
+    label: 'Pentacles',
     rows: [
       ['opportunity, prosperity, new venture', 'A golden opportunity — financial or career. Grab it!', 'A missed chance. Plan better next time.', 'yes'],
       ['balance, juggling, adaptability', 'Juggling many things well. Stay flexible.', 'Overcommitted. Drop a ball on purpose.', 'maybe'],
@@ -130,26 +132,26 @@ const MINOR: Record<Exclude<Suit, 'major'>, { emoji: string; label: string; rows
 }
 
 function buildDeck(): TarotCard[] {
-  const deck: TarotCard[] = MAJOR.map(([name, emoji, kw, up, rev, yn], i) => ({
+  const deck: TarotCard[] = MAJOR.map(([name, art, kw, up, rev, yn], i) => ({
     id: `major-${i}`,
     name,
     suit: 'major',
     numeral: ROMAN[i],
-    emoji,
+    art,
     keywords: kw.split(', '),
     upright: up,
     reversed: rev,
     yesNo: yn,
   }))
   for (const suit of ['wands', 'cups', 'swords', 'pentacles'] as const) {
-    const { emoji, label, rows } = MINOR[suit]
+    const { label, rows } = MINOR[suit]
     rows.forEach(([kw, up, rev, yn], i) => {
       deck.push({
         id: `${suit}-${i + 1}`,
         name: `${RANKS[i]} of ${label}`,
         suit,
         numeral: RANK_NUMERAL[i],
-        emoji,
+        art: suit,
         keywords: kw.split(', '),
         upright: up,
         reversed: rev,

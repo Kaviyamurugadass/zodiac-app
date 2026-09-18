@@ -1,4 +1,5 @@
 import { SUIT_STYLE, type TarotCard } from '../data/tarot'
+import { Art } from './Art'
 
 interface Props {
   card?: TarotCard
@@ -14,6 +15,8 @@ const SIZES = {
   md: 'w-28 h-44 text-4xl',
   lg: 'w-44 h-72 text-6xl',
 }
+
+const ART_SIZE = { sm: 'size-16', md: 'size-20', lg: 'size-32' }
 
 export function CardBack({ className = '' }: { className?: string }) {
   return (
@@ -58,7 +61,7 @@ export default function TarotCardView({ card, reversed, flipped, onClick, size =
                 }`}
               >
                 <span className="font-serif text-[0.45em] font-bold text-gold-200">{card.numeral}</span>
-                <span className="drop-shadow-[0_0_12px_rgba(255,231,163,0.6)]">{card.emoji}</span>
+                <Art name={card.art} className={`${ART_SIZE[size]} drop-shadow-[0_0_12px_rgba(255,231,163,0.45)]`} />
                 <span className="text-center text-[0.3em] leading-tight font-extrabold text-white">{card.name}</span>
               </div>
             )}

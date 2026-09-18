@@ -5,6 +5,7 @@ import { bestMatches } from '../lib/compat'
 import { ageFrom, chineseZodiac, daysUntilBirthday, lifePath } from '../lib/extras'
 import { useProfile } from '../lib/storage'
 import { PageHeader, Section, ShareButton } from '../components/ui'
+import { Art, artUrl, rulerArt } from '../components/Art'
 
 function Chips({ items, tone }: { items: string[]; tone: 'good' | 'bad' | 'plain' }) {
   const cls = {
@@ -33,7 +34,7 @@ export default function Personality() {
       <div className="space-y-4">
         <PageHeader title="Your Personality" subtitle="Discover what the stars say about you" />
         <Section className="space-y-3 text-center">
-          <p className="text-5xl animate-float">🪞</p>
+          <Art name="mirror" className="mx-auto size-24 animate-float" />
           <p>Enter your birthday to reveal your zodiac traits, element, numerology life path and Chinese zodiac.</p>
           <input
             type="date"
@@ -63,14 +64,14 @@ export default function Personality() {
 
       <div className={`rounded-3xl bg-gradient-to-br p-[1.5px] ${sign.gradient}`}>
         <div className="rounded-[1.4rem] bg-night-900/80 p-5 text-center">
-          <p className="text-7xl animate-float">{sign.emoji}</p>
+          <Art name={sign.id} className="mx-auto size-36 animate-float" alt={sign.name} />
           <h2 className="mt-2 font-display text-2xl font-bold">
             <span className="text-gold-300">{sign.symbol}</span> <span className="text-gold">{sign.name}</span>
           </h2>
           <p className="text-sm text-violet-200/80">{sign.dates}</p>
           <p className="mt-3 leading-relaxed">{sign.summary}</p>
           <p className="mt-3 text-sm text-violet-200/80">
-            🎂 {untilBday === 0 ? 'Happy birthday today! 🎉' : `${untilBday} days until your next birthday`} · Age {ageFrom(birthday)}
+            {untilBday === 0 ? 'Happy birthday today!' : `${untilBday} days until your next birthday`} · Age {ageFrom(birthday)}
           </p>
         </div>
       </div>
@@ -82,24 +83,28 @@ export default function Personality() {
             className="btn-ghost text-sm"
             onClick={() => setProfile({ ...profile, birthday, signId: sign.id })}
           >
-            💾 Save as my profile
+            Save as my profile
           </button>
         )}
       </div>
 
       <div className="grid grid-cols-3 gap-2 text-center text-sm">
         <div className="glass p-3">
-          <p className="text-2xl">{el.emoji}</p>
+          <Art name={el.art} className="mx-auto size-12" />
           <p className="font-extrabold">{sign.element}</p>
           <p className="text-[10px] text-violet-200/70">Element</p>
         </div>
         <div className="glass p-3">
-          <p className="text-2xl">🧭</p>
+          <Art name="star" className="mx-auto size-12" />
           <p className="font-extrabold">{sign.modality}</p>
           <p className="text-[10px] text-violet-200/70">Modality</p>
         </div>
         <div className="glass p-3">
-          <p className="text-2xl">🪐</p>
+          <div className="flex justify-center -space-x-3">
+            {rulerArt(sign.ruler).map((r) => (
+              <Art key={r} name={r} className="size-12" />
+            ))}
+          </div>
           <p className="text-sm leading-tight font-extrabold">{sign.ruler}</p>
           <p className="text-[10px] text-violet-200/70">Ruler</p>
         </div>
@@ -108,39 +113,39 @@ export default function Personality() {
         {el.text} {MODALITY_INFO[sign.modality]}
       </p>
 
-      <Section title="💪 Strengths">
+      <Section title="Strengths" icon="sun">
         <Chips items={sign.strengths} tone="good" />
       </Section>
-      <Section title="🙈 Weaknesses">
+      <Section title="Weaknesses" icon="moon">
         <Chips items={sign.weaknesses} tone="bad" />
       </Section>
       <div className="grid grid-cols-2 gap-3">
-        <Section title="😍 Likes">
+        <Section title="Likes" icon="love">
           <ul className="space-y-1 text-sm">{sign.likes.map((l) => <li key={l}>• {l}</li>)}</ul>
         </Section>
-        <Section title="😤 Dislikes">
+        <Section title="Dislikes" icon="mars">
           <ul className="space-y-1 text-sm">{sign.dislikes.map((l) => <li key={l}>• {l}</li>)}</ul>
         </Section>
       </div>
 
-      <Section title="💖 In love">
+      <Section title="In love" icon="hearts">
         <p className="leading-relaxed">{sign.loveStyle}</p>
         <p className="mt-3 text-sm text-violet-200/80">Best matches:</p>
         <div className="mt-2 flex gap-2">
           {matches.map((s) => (
             <Link key={s.id} to="/compatibility" className="flex-1 rounded-2xl bg-white/6 p-2 text-center text-sm font-bold">
-              <span className="block text-2xl">{s.emoji}</span>
+              <Art name={s.id} className="mx-auto block size-12" />
               {s.name}
             </Link>
           ))}
         </div>
       </Section>
 
-      <Section title="💼 At work">
+      <Section title="At work" icon="work">
         <p className="leading-relaxed">{sign.careerStyle}</p>
       </Section>
 
-      <Section title="🍀 Lucky charms">
+      <Section title="Lucky charms" icon="clover">
         <div className="grid grid-cols-3 gap-2 text-center text-sm">
           <div className="rounded-2xl bg-white/6 p-2">
             <p className="text-[10px] text-violet-200/70">Day</p>
@@ -157,7 +162,7 @@ export default function Personality() {
         </div>
       </Section>
 
-      <Section title="🔢 Numerology life path">
+      <Section title="Numerology life path" icon="star">
         <div className="flex items-center gap-4">
           <span className="grid size-16 shrink-0 place-items-center rounded-full bg-gradient-to-br from-gold-200 to-gold-500 font-display text-3xl font-bold text-night-900">
             {lp.number}
@@ -169,7 +174,7 @@ export default function Personality() {
         </div>
       </Section>
 
-      <Section title="🏮 Chinese zodiac">
+      <Section title="Chinese zodiac" icon="moon">
         <div className="flex items-center gap-4">
           <span className="text-5xl">{cz.emoji}</span>
           <div>
@@ -184,7 +189,7 @@ export default function Personality() {
         <ShareButton
           label="Share my traits"
           card={() => ({
-            emoji: sign.emoji,
+            images: [artUrl(sign.id)],
             title: `I'm a ${sign.name}`,
             subtitle: `${sign.element} · Life path ${lp.number} · ${cz.animal}`,
             body: `${sign.summary}  Strengths: ${sign.strengths.slice(0, 3).join(', ')}.`,

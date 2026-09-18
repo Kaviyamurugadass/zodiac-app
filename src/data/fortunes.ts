@@ -93,7 +93,7 @@ export const FORTUNES: string[] = [
 
 export const EIGHT_BALL = {
   yes: [
-    'It is certain ✨', 'Without a doubt', 'Yes — definitely', 'You may rely on it', 'As I see it, yes',
+    'It is certain', 'Without a doubt', 'Yes — definitely', 'You may rely on it', 'As I see it, yes',
     'Most likely', 'Outlook good', 'Signs point to yes', 'The stars say YES', 'Absolutely, go for it!',
   ],
   maybe: [

@@ -3,6 +3,7 @@ import { SIGN_BY_ID, type ZodiacSign } from '../data/signs'
 import { compatibility, type CompatResult } from '../lib/compat'
 import { useProfile } from '../lib/storage'
 import { Meter, PageHeader, Section, ShareButton, SignPicker } from '../components/ui'
+import { Art, artUrl } from '../components/Art'
 
 function Ring({ value }: { value: number }) {
   const r = 54
@@ -33,11 +34,11 @@ function Ring({ value }: { value: number }) {
 }
 
 function verdict(score: number): string {
-  if (score >= 88) return 'Written in the stars 💫'
-  if (score >= 75) return 'A beautiful match 💖'
-  if (score >= 60) return 'Good potential 🌱'
-  if (score >= 48) return 'Needs some work 🛠️'
-  return 'A spicy challenge 🌶️'
+  if (score >= 88) return 'Written in the stars'
+  if (score >= 75) return 'A beautiful match'
+  if (score >= 60) return 'Good potential'
+  if (score >= 48) return 'Needs some work'
+  return 'A spicy challenge'
 }
 
 export default function Compatibility() {
@@ -62,15 +63,15 @@ export default function Compatibility() {
       {/* Pair display */}
       <div className="glass flex items-center justify-around p-4">
         <button onClick={() => setStep('a')} className="flex flex-col items-center">
-          <span className={`grid size-16 place-items-center rounded-full text-4xl ring-2 ${step === 'a' ? 'ring-gold-300' : 'ring-white/15'} bg-white/6`}>
-            {a?.emoji ?? '❔'}
+          <span className={`grid size-20 place-items-center rounded-full text-3xl font-extrabold text-violet-200/60 ring-2 ${step === 'a' ? 'ring-gold-300' : 'ring-white/15'} bg-white/6`}>
+            {a ? <Art name={a.id} className="size-16" /> : '?'}
           </span>
           <span className="mt-1 text-sm font-bold">{a?.name ?? 'You'}</span>
         </button>
-        <span className={`text-4xl ${step === 'calc' ? 'animate-ping' : 'animate-pulse'}`}>💞</span>
+        <Art name="hearts" className={`size-14 ${step === 'calc' ? 'animate-ping' : 'animate-pulse'}`} />
         <button onClick={() => a && setStep('b')} className="flex flex-col items-center">
-          <span className={`grid size-16 place-items-center rounded-full text-4xl ring-2 ${step === 'b' ? 'ring-gold-300' : 'ring-white/15'} bg-white/6`}>
-            {b?.emoji ?? '❔'}
+          <span className={`grid size-20 place-items-center rounded-full text-3xl font-extrabold text-violet-200/60 ring-2 ${step === 'b' ? 'ring-gold-300' : 'ring-white/15'} bg-white/6`}>
+            {b ? <Art name={b.id} className="size-16" /> : '?'}
           </span>
           <span className="mt-1 text-sm font-bold">{b?.name ?? 'Them'}</span>
         </button>
@@ -120,10 +121,10 @@ export default function Compatibility() {
             </p>
           </div>
           <Section className="space-y-3">
-            <Meter label="Love & romance" emoji="💖" value={result.love} />
-            <Meter label="Friendship" emoji="🤝" value={result.friendship} />
-            <Meter label="Communication" emoji="💬" value={result.communication} />
-            <Meter label="Trust" emoji="🔐" value={result.trust} />
+            <Meter label="Love & romance" icon="love" value={result.love} />
+            <Meter label="Friendship" icon="star" value={result.friendship} />
+            <Meter label="Communication" icon="air" value={result.communication} />
+            <Meter label="Trust" icon="moon" value={result.trust} />
           </Section>
           <Section>
             <p className="leading-relaxed">{result.text}</p>
@@ -134,11 +135,11 @@ export default function Compatibility() {
           </Section>
           <div className="flex flex-wrap justify-center gap-3">
             <button className="btn-primary" onClick={() => setStep('b')}>
-              🔁 Try another sign
+              Try another sign
             </button>
             <ShareButton
               card={() => ({
-                emoji: `${result.a.emoji} 💞 ${result.b.emoji}`,
+                images: [artUrl(result.a.id), artUrl('hearts'), artUrl(result.b.id)],
                 title: `${result.overall}% Match`,
                 subtitle: `${result.a.name} × ${result.b.name}`,
                 body: `${verdict(result.overall)} — ${result.text}`,

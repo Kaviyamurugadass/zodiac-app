@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SIGNS, type ZodiacSign } from '../data/signs'
 import { shareCard, type ShareCard } from '../lib/share'
+import { Art } from './Art'
 
 export function PageHeader({ title, subtitle, back = true }: { title: string; subtitle?: string; back?: boolean }) {
   const navigate = useNavigate()
@@ -58,7 +59,7 @@ export function SignPicker({
             }`}
             aria-pressed={active}
           >
-            <span className={compact ? 'text-xl' : 'text-2xl'}>{s.emoji}</span>
+            <Art name={s.id} className={compact ? 'size-10' : 'size-12'} />
             <span className="mt-1 text-[11px] leading-none font-bold">{s.name}</span>
             {!compact && <span className="mt-1 text-[9px] leading-none opacity-70">{s.dates.split(' – ')[0]}</span>}
           </button>
@@ -85,26 +86,41 @@ export function ShareButton({ card, label = 'Share' }: { card: () => ShareCard; 
         }
       }}
     >
-      {state === 'busy' ? '✨ Creating…' : state === 'done' ? '✅ Saved image' : `📤 ${label}`}
+      {state === 'busy' ? 'Creating…' : state === 'done' ? 'Saved image ✓' : label}
     </button>
   )
 }
 
-export function Section({ title, children, className = '' }: { title?: string; children: ReactNode; className?: string }) {
+export function Section({
+  title,
+  icon,
+  children,
+  className = '',
+}: {
+  title?: string
+  icon?: string
+  children: ReactNode
+  className?: string
+}) {
   return (
     <section className={`glass p-4 ${className}`}>
-      {title && <h2 className="mb-3 text-sm font-extrabold tracking-wider text-violet-200/90 uppercase">{title}</h2>}
+      {title && (
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold tracking-wider text-violet-200/90 uppercase">
+          {icon && <Art name={icon} className="size-7" />}
+          {title}
+        </h2>
+      )}
       {children}
     </section>
   )
 }
 
-export function Meter({ label, value, emoji }: { label: string; value: number; emoji?: string }) {
+export function Meter({ label, value, icon }: { label: string; value: number; icon?: string }) {
   return (
     <div>
       <div className="mb-1 flex justify-between text-sm">
-        <span className="font-bold">
-          {emoji} {label}
+        <span className="flex items-center gap-1.5 font-bold">
+          {icon && <Art name={icon} className="size-6" />} {label}
         </span>
         <span className="font-extrabold text-gold-300">{value}%</span>
       </div>

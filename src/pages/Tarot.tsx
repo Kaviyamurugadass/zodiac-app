@@ -4,14 +4,15 @@ import { dateKey, seededRng, shuffle } from '../lib/random'
 import { useStore } from '../lib/storage'
 import TarotCardView, { CardBack } from '../components/TarotCardView'
 import { PageHeader, Section, ShareButton } from '../components/ui'
+import { Art, artUrl } from '../components/Art'
 
 type Mode = 'daily' | 'three' | 'love' | 'yesno'
 
-const MODES: { id: Mode; label: string; emoji: string; positions: string[]; intro: string }[] = [
-  { id: 'daily', label: 'Card of the Day', emoji: '🌞', positions: ['Today'], intro: 'One card to guide your whole day. It stays the same until midnight.' },
-  { id: 'three', label: 'Past · Present · Future', emoji: '⏳', positions: ['Past', 'Present', 'Future'], intro: 'Think about a situation, then pick three cards.' },
-  { id: 'love', label: 'Love Reading', emoji: '💘', positions: ['You', 'Them', 'Your bond'], intro: 'Think of someone special and pick three cards.' },
-  { id: 'yesno', label: 'Yes / No', emoji: '❓', positions: ['Answer'], intro: 'Ask a yes-or-no question and pick one card.' },
+const MODES: { id: Mode; label: string; art: string; positions: string[]; intro: string }[] = [
+  { id: 'daily', label: 'Card of the Day', art: 'sun', positions: ['Today'], intro: 'One card to guide your whole day. It stays the same until midnight.' },
+  { id: 'three', label: 'Past · Present · Future', art: 'moon', positions: ['Past', 'Present', 'Future'], intro: 'Think about a situation, then pick three cards.' },
+  { id: 'love', label: 'Love Reading', art: 'hearts', positions: ['You', 'Them', 'Your bond'], intro: 'Think of someone special and pick three cards.' },
+  { id: 'yesno', label: 'Yes / No', art: 'crystal', positions: ['Answer'], intro: 'Ask a yes-or-no question and pick one card.' },
 ]
 
 interface Drawn {
@@ -38,10 +39,23 @@ function Meaning({ d, position }: { d: Drawn; position: string }) {
   return (
     <Section className="animate-fade-up">
       <p className="text-xs font-bold tracking-wider text-violet-200/70 uppercase">{position}</p>
-      <h3 className="mt-0.5 text-lg font-extrabold">
-        {d.card.emoji} {d.card.name} {d.reversed && <span className="text-sm font-bold text-rose-300">(Reversed)</span>}
-      </h3>
-      <p className="text-xs text-violet-200/70">{style.label}</p>
+      <div className="mt-1 flex items-center gap-3">
+        <Art name={d.card.art} className="size-14 shrink-0" />
+        <div>
+          <h3 className="text-lg leading-tight font-extrabold">
+            {d.card.name} {d.reversed && <span className="text-sm font-bold text-rose-300">(Reversed)</span>}
+          </h3>
+          <p className="text-xs text-violet-200/70">
+            {style.label}
+            {d.card.suit === 'major' && (
+              <>
+                {' '}
+                · Astrology: <span className="capitalize">{d.card.art}</span>
+              </>
+            )}
+          </p>
+        </div>
+      </div>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {d.card.keywords.map((k) => (
           <span key={k} className="rounded-full bg-white/8 px-2.5 py-0.5 text-xs capitalize">
@@ -66,11 +80,11 @@ export default function Tarot() {
           <button
             key={m.id}
             onClick={() => setMode(m.id)}
-            className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold transition ${
+            className={`flex shrink-0 items-center gap-1.5 rounded-full py-1.5 pr-4 pl-2 text-sm font-bold transition ${
               mode === m.id ? 'bg-gradient-to-r from-gold-200 to-gold-500 text-night-900' : 'bg-white/8 text-violet-100 ring-1 ring-white/10'
             }`}
           >
-            {m.emoji} {m.label}
+            <Art name={m.art} className="size-7" /> {m.label}
           </button>
         ))}
       </div>
@@ -101,7 +115,7 @@ function DailyCard() {
         />
       </div>
       {!flipped ? (
-        <p className="text-center font-bold text-gold-300 animate-pulse">Tap the card to reveal ✨</p>
+        <p className="text-center font-bold text-gold-300 animate-pulse">Tap the card to reveal</p>
       ) : (
         <>
           <Meaning d={drawn} position="Your card for today" />
@@ -109,7 +123,7 @@ function DailyCard() {
             <ShareButton
               label="Share my card"
               card={() => ({
-                emoji: drawn.card.emoji,
+                images: [artUrl(drawn.card.art)],
                 title: drawn.card.name,
                 subtitle: `Card of the Day${drawn.reversed ? ' · Reversed' : ''}`,
                 body: drawn.reversed ? drawn.card.reversed : drawn.card.upright,
@@ -175,7 +189,7 @@ function Spread({ cfg }: { cfg: (typeof MODES)[number] }) {
           />
         )}
         <button className="btn-primary w-full" onClick={start}>
-          🔀 Shuffle the deck
+          Shuffle the deck
         </button>
       </Section>
     )
@@ -251,7 +265,7 @@ function Spread({ cfg }: { cfg: (typeof MODES)[number] }) {
           />
         ))}
       </div>
-      {!allFlipped && <p className="text-center font-bold text-gold-300 animate-pulse">Tap each card to reveal ✨</p>}
+      {!allFlipped && <p className="text-center font-bold text-gold-300 animate-pulse">Tap each card to reveal</p>}
 
       {verdict && (
         <div className="text-center animate-pop">
@@ -267,11 +281,11 @@ function Spread({ cfg }: { cfg: (typeof MODES)[number] }) {
       {allFlipped && (
         <div className="flex flex-wrap justify-center gap-3">
           <button className="btn-primary" onClick={start}>
-            🔄 New reading
+            New reading
           </button>
           <ShareButton
             card={() => ({
-              emoji: drawn.map((d) => d.card.emoji).join(' '),
+              images: drawn.map((d) => artUrl(d.card.art)),
               title: cfg.label,
               subtitle: verdict ? `The answer: ${verdict.text}` : drawn.map((d) => d.card.name).join(' · '),
               body: drawn

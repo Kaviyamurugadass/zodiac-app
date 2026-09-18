@@ -3,6 +3,7 @@ import { SIGN_BY_ID, signFromDate } from '../data/signs'
 import { isIOS, isStandalone, useInstallPrompt } from '../lib/install'
 import { EMPTY_PROFILE, useProfile, useStore, useStreak } from '../lib/storage'
 import { PageHeader, Section, SignPicker } from '../components/ui'
+import { Art } from '../components/Art'
 
 export default function Profile() {
   const [profile, setProfile] = useProfile()
@@ -43,7 +44,7 @@ export default function Profile() {
         </label>
         {sign && (
           <div className="flex items-center gap-3 rounded-2xl bg-white/6 p-3">
-            <span className="text-4xl">{sign.emoji}</span>
+            <Art name={sign.id} className="size-16" alt={sign.name} />
             <div className="flex-1">
               <p className="font-extrabold">{sign.name}</p>
               <p className="text-xs text-violet-200/70">{sign.dates}</p>
@@ -61,7 +62,7 @@ export default function Profile() {
         </Section>
       )}
 
-      <Section title="🔥 Your streak">
+      <Section title="Your streak" icon="fire">
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="rounded-2xl bg-white/6 p-3">
             <p className="text-2xl font-extrabold text-gold-300">{streak.count}</p>
@@ -77,12 +78,12 @@ export default function Profile() {
           </div>
         </div>
         <p className="mt-3 text-sm text-violet-200/80">
-          Come back every day to keep your streak glowing. 🥠 Cookies cracked: {cookies}
+          Come back every day to keep your streak glowing. Cookies cracked: {cookies}
         </p>
       </Section>
 
       {!isStandalone() && (
-        <Section title="📲 Install the app">
+        <Section title="Install the app" icon="star">
           {canInstall ? (
             <button className="btn-primary w-full" onClick={install}>
               Add Zodiac Play to home screen

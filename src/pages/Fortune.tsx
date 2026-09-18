@@ -3,6 +3,7 @@ import { FORTUNES } from '../data/fortunes'
 import { pick, uniqueInts } from '../lib/random'
 import { useStore } from '../lib/storage'
 import { PageHeader, ShareButton } from '../components/ui'
+import { Art, artUrl } from '../components/Art'
 
 type Phase = 'whole' | 'cracking' | 'open'
 
@@ -25,7 +26,7 @@ export default function Fortune() {
 
   const cookieHalf = (side: 'left' | 'right') => (
     <span
-      className="absolute inset-0 grid place-items-center text-[9rem] leading-none transition-all duration-700 ease-out select-none"
+      className="absolute inset-0 transition-all duration-700 ease-out"
       style={{
         clipPath: side === 'left' ? 'inset(0 50% 0 0)' : 'inset(0 0 0 50%)',
         transform:
@@ -36,7 +37,7 @@ export default function Fortune() {
       }}
       aria-hidden
     >
-      🥠
+      <Art name="cookie" className="size-full" />
     </span>
   )
 
@@ -65,17 +66,17 @@ export default function Fortune() {
           </div>
         )}
 
-        {phase === 'whole' && <p className="mt-4 font-bold text-gold-300 animate-pulse">Tap to crack 🥢</p>}
+        {phase === 'whole' && <p className="mt-4 font-bold text-gold-300 animate-pulse">Tap to crack</p>}
       </div>
 
       {phase === 'open' && (
         <div className="flex flex-wrap justify-center gap-3 animate-fade-up">
           <button className="btn-primary" onClick={() => setPhase('whole')}>
-            🥠 Another cookie
+            Another cookie
           </button>
           <ShareButton
             card={() => ({
-              emoji: '🥠',
+              images: [artUrl('cookie')],
               title: 'My Fortune',
               subtitle: `Lucky numbers: ${numbers.join(' · ')}`,
               body: `“${fortune}”`,
@@ -84,7 +85,7 @@ export default function Fortune() {
         </div>
       )}
 
-      <p className="text-center text-xs text-violet-200/60">You have cracked {opened} cookie{opened === 1 ? '' : 's'} so far 🍪</p>
+      <p className="text-center text-xs text-violet-200/60">You have cracked {opened} cookie{opened === 1 ? '' : 's'} so far</p>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { generateHoroscope } from '../lib/horoscope'
 import { addDays } from '../lib/random'
 import { useProfile } from '../lib/storage'
 import { Meter, PageHeader, Section, ShareButton, SignPicker, StarRating } from '../components/ui'
+import { Art, artUrl } from '../components/Art'
 
 const DAYS = [
   { offset: -1, label: 'Yesterday' },
@@ -48,7 +49,7 @@ export default function HoroscopePage() {
       {/* Sign hero */}
       <div className={`rounded-3xl bg-gradient-to-br p-[1.5px] ${sign.gradient}`}>
         <div className="flex items-center gap-4 rounded-[1.4rem] bg-night-900/80 p-4">
-          <span className="text-6xl animate-float">{sign.emoji}</span>
+          <Art name={sign.id} className="size-24 shrink-0 animate-float" alt={sign.name} />
           <div className="flex-1">
             <h2 className="font-display text-xl font-bold">
               {sign.symbol} {sign.name}
@@ -83,19 +84,19 @@ export default function HoroscopePage() {
       {/* Overall */}
       <Section key={h.date + sign.id} className="animate-pop">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-extrabold tracking-wider text-violet-200/90 uppercase">🔮 Overall</h2>
+          <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-wider text-violet-200/90 uppercase">
+            <Art name="crystal" className="size-8" /> Overall
+          </h2>
           <StarRating value={h.overall.rating} size="text-lg" />
         </div>
         <p className="mt-2 leading-relaxed">{h.overall.text}</p>
-        <p className="mt-2 text-sm text-gold-200/90">💡 {h.overall.tip}</p>
+        <p className="mt-2 text-sm text-gold-200/90">✦ {h.overall.tip}</p>
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-white/8 px-3 py-1">
-            Mood: {h.mood.emoji} {h.mood.label}
-          </span>
+          <span className="rounded-full bg-white/8 px-3 py-1">Mood: {h.mood.label}</span>
           <span className="rounded-full bg-white/8 px-3 py-1">Theme: {h.theme}</span>
         </div>
         <div className="mt-4">
-          <Meter label="Cosmic energy" emoji="⚡" value={h.energy} />
+          <Meter label="Cosmic energy" icon="sun" value={h.energy} />
         </div>
       </Section>
 
@@ -104,8 +105,8 @@ export default function HoroscopePage() {
         <Section key={c.key + h.date}>
           <div className="animate-fade-up" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="flex items-center justify-between">
-              <h3 className="font-extrabold">
-                <span className="mr-1 text-xl">{c.emoji}</span> {c.label}
+              <h3 className="flex items-center gap-2 font-extrabold">
+                <Art name={c.art} className="size-10" /> {c.label}
               </h3>
               <StarRating value={c.rating} />
             </div>
@@ -116,7 +117,7 @@ export default function HoroscopePage() {
       ))}
 
       {/* Lucky stuff */}
-      <Section title="🍀 Your lucky charms">
+      <Section title="Your lucky charms" icon="clover">
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-2xl bg-white/6 p-3">
             <p className="text-xs text-violet-200/70">Lucky numbers</p>
@@ -135,8 +136,8 @@ export default function HoroscopePage() {
           </div>
           <div className="rounded-2xl bg-white/6 p-3">
             <p className="text-xs text-violet-200/70">Best match today</p>
-            <p className="mt-1 font-extrabold">
-              {h.lucky.buddy.emoji} {h.lucky.buddy.name}
+            <p className="mt-1 flex items-center gap-1 font-extrabold">
+              <Art name={h.lucky.buddy.id} className="size-8" /> {h.lucky.buddy.name}
             </p>
           </div>
           <div className="col-span-2 rounded-2xl bg-white/6 p-3">
@@ -150,10 +151,10 @@ export default function HoroscopePage() {
         <ShareButton
           label="Share my horoscope"
           card={() => ({
-            emoji: sign.emoji,
+            images: [artUrl(sign.id)],
             title: sign.name,
             subtitle: `${dateLabel} · ${'★'.repeat(h.overall.rating)}${'☆'.repeat(5 - h.overall.rating)}`,
-            body: `${h.overall.text}  💖 ${h.categories[0].text}  🍀 Lucky: ${h.lucky.numbers.join(', ')} · ${h.lucky.color.name}`,
+            body: `${h.overall.text}  Love: ${h.categories[0].text}  Lucky: ${h.lucky.numbers.join(', ')} · ${h.lucky.color.name}`,
           })}
         />
       </div>
