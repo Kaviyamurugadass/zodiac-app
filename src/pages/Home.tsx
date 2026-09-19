@@ -11,7 +11,7 @@ const FEATURES = [
   { to: '/fortune', title: 'Fortune Cookie', desc: 'Crack open your luck', art: 'cookie', bg: 'from-amber-500/40 to-orange-500/30' },
   { to: '/yes-no', title: 'Yes or No', desc: 'Ask the magic orb', art: 'crystal', bg: 'from-purple-500/40 to-pink-500/30' },
   { to: '/coin', title: 'Heads or Tails', desc: 'Flip a lucky coin', art: 'coin', bg: 'from-yellow-500/40 to-amber-600/30' },
-  { to: '/personality', title: 'Your Personality', desc: 'Traits, numerology & more', art: 'mirror', bg: 'from-emerald-500/40 to-teal-500/30' },
+  { to: '/personality', title: 'Your Personality', desc: 'Pick a sign, see its traits', art: 'mirror', bg: 'from-emerald-500/40 to-teal-500/30' },
   { to: '/compatibility', title: 'Love Match', desc: 'Zodiac compatibility', art: 'hearts', bg: 'from-rose-500/40 to-pink-500/30' },
   { to: '/profile', title: 'My Profile', desc: 'Birthday & streaks', art: 'user', bg: 'from-slate-500/40 to-violet-500/30' },
 ]
@@ -82,9 +82,9 @@ export default function Home() {
         <Link to="/profile" className="glass flex items-center gap-3 p-4">
           <Art name="star" className="size-14 shrink-0 animate-float" />
           <div>
-            <p className="font-bold">Set your birthday</p>
+            <p className="font-bold">Pick your sign</p>
             <p className="mt-1 text-sm text-violet-200/80">
-              Add your birthday once and we will show your personal horoscope right here every day.
+              Choose your zodiac sign (or add your birthday) and we will show your horoscope right here every day.
             </p>
           </div>
         </Link>

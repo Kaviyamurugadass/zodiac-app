@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { SIGN_BY_ID } from '../data/signs'
 import { generateHoroscope } from '../lib/horoscope'
 import { addDays } from '../lib/random'
@@ -57,9 +57,14 @@ export default function HoroscopePage() {
             <p className="text-xs text-violet-200/80">
               {sign.dates} · {sign.element} · {sign.ruler}
             </p>
-            <button onClick={() => setPicking(true)} className="mt-2 text-xs font-bold text-gold-300 underline-offset-2 hover:underline">
-              Change sign ⇄
-            </button>
+            <div className="mt-2 flex gap-4 text-xs font-bold text-gold-300">
+              <button onClick={() => setPicking(true)} className="underline-offset-2 hover:underline">
+                Change sign ⇄
+              </button>
+              <Link to={`/personality/${sign.id}`} className="underline-offset-2 hover:underline">
+                See traits →
+              </Link>
+            </div>
           </div>
         </div>
       </div>

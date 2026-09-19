@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ELEMENT_INFO, MODALITY_INFO, signFromDate } from '../data/signs'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ELEMENT_INFO, MODALITY_INFO, SIGN_BY_ID, signFromDate } from '../data/signs'
 import { bestMatches } from '../lib/compat'
 import { ageFrom, chineseZodiac, daysUntilBirthday, lifePath } from '../lib/extras'
 import { useProfile } from '../lib/storage'
-import { PageHeader, Section, ShareButton } from '../components/ui'
+import { PageHeader, Section, ShareButton, SignPicker } from '../components/ui'
 import { Art, artUrl, rulerArt } from '../components/Art'
 
 function Chips({ items, tone }: { items: string[]; tone: 'good' | 'bad' | 'plain' }) {
@@ -24,24 +24,62 @@ function Chips({ items, tone }: { items: string[]; tone: 'good' | 'bad' | 'plain
   )
 }
 
-export default function Personality() {
-  const [profile, setProfile] = useProfile()
-  const [birthday, setBirthday] = useState(profile.birthday)
-  const valid = /^\d{4}-\d{2}-\d{2}$/.test(birthday) && ageFrom(birthday) >= 0
+// Year >= 1900 so a half-typed year (0001, 0019…) doesn't count as a birthday
+const isValidBirthday = (b: string) => /^\d{4}-\d{2}-\d{2}$/.test(b) && Number(b.slice(0, 4)) >= 1900 && ageFrom(b) >= 0
+const today = () => new Date().toISOString().slice(0, 10)
 
-  if (!valid) {
+/**
+ * Shows a sign's traits. The sign comes from, in order:
+ * the URL (/personality/leo), a birthday (typed here or saved in the profile),
+ * or the sign saved in the profile. Birthday-only extras (numerology, Chinese
+ * zodiac, age) appear only when a birthday is known.
+ */
+export default function Personality() {
+  const { signId } = useParams()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [profile, setProfile] = useProfile()
+  const [birthday, setBirthday] = useState<string>(
+    signId ? '' : ((location.state as { birthday?: string } | null)?.birthday ?? profile.birthday),
+  )
+  const [picking, setPicking] = useState(false)
+
+  const hasBirthday = !signId && isValidBirthday(birthday)
+  const sign = signId
+    ? SIGN_BY_ID[signId]
+    : hasBirthday
+      ? signFromDate(Number(birthday.slice(5, 7)), Number(birthday.slice(8, 10)))
+      : profile.signId
+        ? SIGN_BY_ID[profile.signId]
+        : undefined
+
+  const showSign = (id: string) => navigate(`/personality/${id}`)
+  const showBirthday = (b: string) => {
+    if (!isValidBirthday(b)) return
+    setPicking(false)
+    if (signId) navigate('/personality', { state: { birthday: b } })
+    else setBirthday(b)
+  }
+
+  if (!sign || picking) {
     return (
       <div className="space-y-4">
         <PageHeader title="Your Personality" subtitle="Discover what the stars say about you" />
-        <Section className="space-y-3 text-center">
-          <Art name="mirror" className="mx-auto size-24 animate-float" />
-          <p>Enter your birthday to reveal your zodiac traits, element, numerology life path and Chinese zodiac.</p>
+        <Section title="Pick your sign" icon="star">
+          <SignPicker value={sign?.id} onChange={(s) => showSign(s.id)} />
+        </Section>
+        <div className="flex items-center gap-3 text-xs font-bold text-violet-200/60 uppercase">
+          <span className="h-px flex-1 bg-white/15" /> or <span className="h-px flex-1 bg-white/15" />
+        </div>
+        <Section title="Don't know your sign?" icon="mirror">
+          <p className="mb-3 text-sm text-violet-100/90">
+            Enter your birthday and we'll find it — plus your numerology life path and Chinese zodiac.
+          </p>
           <input
             type="date"
             className="input"
-            value={birthday}
-            max={new Date().toISOString().slice(0, 10)}
-            onChange={(e) => setBirthday(e.target.value)}
+            max={today()}
+            onChange={(e) => showBirthday(e.target.value)}
             aria-label="Your birthday"
           />
         </Section>
@@ -49,18 +87,34 @@ export default function Personality() {
     )
   }
 
-  const [, m, d] = birthday.split('-').map(Number)
-  const sign = signFromDate(m, d)
   const el = ELEMENT_INFO[sign.element]
-  const lp = lifePath(birthday)
-  const cz = chineseZodiac(birthday)
   const matches = bestMatches(sign, 3)
-  const untilBday = daysUntilBirthday(birthday)
-  const isSaved = profile.birthday === birthday
+  const lp = hasBirthday ? lifePath(birthday) : undefined
+  const cz = hasBirthday ? chineseZodiac(birthday) : undefined
+  const untilBday = hasBirthday ? daysUntilBirthday(birthday) : 0
+  const isMine = hasBirthday ? profile.birthday === birthday : profile.signId === sign.id
+
+  const saveAsMine = () => {
+    if (hasBirthday) setProfile({ ...profile, birthday, signId: sign.id })
+    else {
+      // keep a saved birthday only if it agrees with the chosen sign
+      const keep =
+        profile.birthday &&
+        signFromDate(Number(profile.birthday.slice(5, 7)), Number(profile.birthday.slice(8, 10))).id === sign.id
+      setProfile({ ...profile, signId: sign.id, birthday: keep ? profile.birthday : '' })
+    }
+  }
 
   return (
     <div className="space-y-4">
-      <PageHeader title="Your Personality" subtitle={new Date(birthday + 'T00:00:00').toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })} />
+      <PageHeader
+        title={hasBirthday ? 'Your Personality' : `${sign.name} Traits`}
+        subtitle={
+          hasBirthday
+            ? new Date(birthday + 'T00:00:00').toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })
+            : sign.dates
+        }
+      />
 
       <div className={`rounded-3xl bg-gradient-to-br p-[1.5px] ${sign.gradient}`}>
         <div className="rounded-[1.4rem] bg-night-900/80 p-5 text-center">
@@ -70,22 +124,26 @@ export default function Personality() {
           </h2>
           <p className="text-sm text-violet-200/80">{sign.dates}</p>
           <p className="mt-3 leading-relaxed">{sign.summary}</p>
-          <p className="mt-3 text-sm text-violet-200/80">
-            {untilBday === 0 ? 'Happy birthday today!' : `${untilBday} days until your next birthday`} · Age {ageFrom(birthday)}
-          </p>
+          {hasBirthday && (
+            <p className="mt-3 text-sm text-violet-200/80">
+              {untilBday === 0 ? 'Happy birthday today!' : `${untilBday} days until your next birthday`} · Age {ageFrom(birthday)}
+            </p>
+          )}
         </div>
       </div>
 
       <div className="flex flex-wrap justify-center gap-2">
-        <input type="date" className="input max-w-44 py-2 text-sm" value={birthday} onChange={(e) => setBirthday(e.target.value)} aria-label="Change birthday" />
-        {!isSaved && (
-          <button
-            className="btn-ghost text-sm"
-            onClick={() => setProfile({ ...profile, birthday, signId: sign.id })}
-          >
-            Save as my profile
+        <button className="btn-ghost text-sm" onClick={() => setPicking(true)}>
+          Change sign
+        </button>
+        {!isMine && (
+          <button className="btn-ghost text-sm" onClick={saveAsMine}>
+            {hasBirthday ? 'Save as my profile' : 'This is my sign'}
           </button>
         )}
+        <Link to={`/horoscope/${sign.id}`} className="btn-ghost text-sm">
+          Today's horoscope
+        </Link>
       </div>
 
       <div className="grid grid-cols-3 gap-2 text-center text-sm">
@@ -133,7 +191,7 @@ export default function Personality() {
         <p className="mt-3 text-sm text-violet-200/80">Best matches:</p>
         <div className="mt-2 flex gap-2">
           {matches.map((s) => (
-            <Link key={s.id} to="/compatibility" className="flex-1 rounded-2xl bg-white/6 p-2 text-center text-sm font-bold">
+            <Link key={s.id} to={`/personality/${s.id}`} className="flex-1 rounded-2xl bg-white/6 p-2 text-center text-sm font-bold">
               <Art name={s.id} className="mx-auto block size-12" />
               {s.name}
             </Link>
@@ -162,36 +220,47 @@ export default function Personality() {
         </div>
       </Section>
 
-      <Section title="Numerology life path" icon="star">
-        <div className="flex items-center gap-4">
-          <span className="grid size-16 shrink-0 place-items-center rounded-full bg-gradient-to-br from-gold-200 to-gold-500 font-display text-3xl font-bold text-night-900">
-            {lp.number}
-          </span>
-          <div>
-            <p className="font-extrabold">{lp.title}</p>
-            <p className="text-sm leading-relaxed text-violet-100/90">{lp.text}</p>
-          </div>
-        </div>
-      </Section>
+      {lp && cz ? (
+        <>
+          <Section title="Numerology life path" icon="star">
+            <div className="flex items-center gap-4">
+              <span className="grid size-16 shrink-0 place-items-center rounded-full bg-gradient-to-br from-gold-200 to-gold-500 font-display text-3xl font-bold text-night-900">
+                {lp.number}
+              </span>
+              <div>
+                <p className="font-extrabold">{lp.title}</p>
+                <p className="text-sm leading-relaxed text-violet-100/90">{lp.text}</p>
+              </div>
+            </div>
+          </Section>
 
-      <Section title="Chinese zodiac" icon="moon">
-        <div className="flex items-center gap-4">
-          <span className="text-5xl">{cz.emoji}</span>
-          <div>
-            <p className="font-extrabold">Year of the {cz.animal}</p>
-            <p className="text-sm text-violet-100/90">{cz.traits}</p>
-          </div>
-        </div>
-        <p className="mt-2 text-[11px] text-violet-200/60">Based on birth year; January/February birthdays may fall in the previous lunar year.</p>
-      </Section>
+          <Section title="Chinese zodiac" icon="moon">
+            <div className="flex items-center gap-4">
+              <span className="text-5xl">{cz.emoji}</span>
+              <div>
+                <p className="font-extrabold">Year of the {cz.animal}</p>
+                <p className="text-sm text-violet-100/90">{cz.traits}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-[11px] text-violet-200/60">Based on birth year; January/February birthdays may fall in the previous lunar year.</p>
+          </Section>
+        </>
+      ) : (
+        <Section title="Want more?" icon="mirror">
+          <p className="mb-3 text-sm text-violet-100/90">
+            Add a birthday to unlock the numerology life path, Chinese zodiac and birthday countdown.
+          </p>
+          <input type="date" className="input" max={today()} onChange={(e) => showBirthday(e.target.value)} aria-label="Birthday" />
+        </Section>
+      )}
 
       <div className="flex justify-center">
         <ShareButton
-          label="Share my traits"
+          label={hasBirthday ? 'Share my traits' : `Share ${sign.name} traits`}
           card={() => ({
             images: [artUrl(sign.id)],
-            title: `I'm a ${sign.name}`,
-            subtitle: `${sign.element} · Life path ${lp.number} · ${cz.animal}`,
+            title: hasBirthday ? `I'm a ${sign.name}` : sign.name,
+            subtitle: lp && cz ? `${sign.element} · Life path ${lp.number} · ${cz.animal}` : `${sign.element} · ${sign.modality} · ${sign.ruler}`,
             body: `${sign.summary}  Strengths: ${sign.strengths.slice(0, 3).join(', ')}.`,
           })}
         />

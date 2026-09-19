@@ -45,6 +45,7 @@ const router = createBrowserRouter([
       { path: '/yes-no', element: <YesNo /> },
       { path: '/coin', element: <Coin /> },
       { path: '/personality', element: <Personality /> },
+      { path: '/personality/:signId', element: <Personality /> },
       { path: '/compatibility', element: <Compatibility /> },
       { path: '/profile', element: <Profile /> },
       { path: '*', element: <Home /> },
